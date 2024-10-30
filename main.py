@@ -42,3 +42,16 @@ def converted_font_size(font_size):
         raise ValueError("Invalid doc type")
     return font_for_type    
 
+def lines_with_sequence(char):
+    def with_char(length):
+        sequence = char * length
+        def with_length(doc):
+            num = 0
+            for word in doc.split():
+                if sequence in word:
+                    num += 1
+            return num
+        return with_length
+    return with_char
+
+

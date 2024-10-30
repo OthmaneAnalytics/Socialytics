@@ -30,4 +30,15 @@ def new_collection(initial_docs):
         enclosed_docs.append(string)
         return enclosed_docs
     return increase_list
-    
+
+def converted_font_size(font_size):
+    def font_for_type(doc_type):
+        if doc_type == "txt":
+            return font_size
+        if doc_type == "md":
+            return font_size * 2
+        if doc_type == "docx":
+            return font_size * 3
+        raise ValueError("Invalid doc type")
+    return font_for_type    
+

@@ -7,7 +7,6 @@ def doc_format_checker_and_converter(conversion_function, valid_formats):
     return conversion_fct
 
 
-# Don't edit below this line
 
 
 def capitalize_content(content):
@@ -17,3 +16,18 @@ def capitalize_content(content):
 def reverse_content(content):
     return content[::-1]
 
+def word_count_aggregator():
+    count = 0
+    def fct(doc):
+        nonlocal count
+        count += len(doc.split())
+        return count
+    return fct
+
+def new_collection(initial_docs):
+    enclosed_docs = initial_docs.copy()
+    def increase_list(string):
+        enclosed_docs.append(string)
+        return enclosed_docs
+    return increase_list
+    

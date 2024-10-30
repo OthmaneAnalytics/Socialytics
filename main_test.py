@@ -1,74 +1,54 @@
 from main import *
 
+
 run_cases = [
+    (["Dan Evans"], ["Charlie Prince"], ["Dan Evans", "Charlie Prince"]),
     (
-        capitalize_content,
-        "sample.txt",
-        "I really don't feel like screaming today.",
-        ["txt", "md", "doc"],
-        "I REALLY DON'T FEEL LIKE SCREAMING TODAY.",
+        ["Dan Evans", "Ben Wade"],
+        ["Alice Evans"],
+        ["Dan Evans", "Ben Wade", "Alice Evans"],
     ),
     (
-        reverse_content,
-        "testing.doc",
-        "This is probably how they write in the red room in Twin Peaks...",
-        ["txt", "md", "doc"],
-        "...skaeP niwT ni moor der eht ni etirw yeht woh ylbaborp si sihT",
+        ["Dan Evans", "Ben Wade", "Alice Evans"],
+        ["Doc Potter", "Butterfield"],
+        ["Dan Evans", "Ben Wade", "Alice Evans", "Doc Potter", "Butterfield"],
     ),
 ]
 
 submit_cases = run_cases + [
     (
-        capitalize_content,
-        "test.docx",
-        "Okay actually I do feel like screaming today.",
-        ["txt", "md", "doc"],
-        "Invalid file format",
+        ["Dan Evans", "Ben Wade", "Alice Evans"],
+        [],
+        ["Dan Evans", "Ben Wade", "Alice Evans"],
     ),
+    ([], ["William Evans"], ["William Evans"]),
     (
-        reverse_content,
-        "end.ppt",
-        "Cherry pie and coffee anyone?",
-        ["txt", "md", "doc"],
-        "Invalid file format",
-    ),
-    (
-        capitalize_content,
-        "sample.doc",
-        "I really do feel like eating today.",
-        ["txt", "md", "doc"],
-        "I REALLY DO FEEL LIKE EATING TODAY.",
-    ),
-    (
-        reverse_content,
-        "testing.md",
-        "The owls are not what they seem.",
-        ["txt", "md", "doc"],
-        ".mees yeht tahw ton era slwo ehT",
+        ["Dan Evans", "Ben Wade"],
+        ["Charlie Prince", "Butterfield"],
+        ["Dan Evans", "Ben Wade", "Charlie Prince", "Butterfield"],
     ),
 ]
 
 
-def test(conversion_func, filename, doc_content, valid_formats, expected_output):
+def test(initial_docs, docs_to_add, expected_output):
     print("---------------------------------")
-    print(f"Inputs:")
-    print(f" * conversion_func: {conversion_func.__name__}")
-    print(f" * filename: {filename}")
-    print(f" * doc_content: {doc_content}")
-    print(f" * valid_formats: {valid_formats}")
+    print(f"Initial documents: {initial_docs}")
+    print(f"Documents to add: {docs_to_add}")
     print(f"Expecting: {expected_output}")
-    try:
-        result = doc_format_checker_and_converter(conversion_func, valid_formats)(
-            filename, doc_content
-        )
-    except Exception as e:
-        result = str(e)
+    copy_of_initial_docs = initial_docs.copy()
+    add_doc = new_collection(initial_docs)
+    result = initial_docs.copy()
+    for doc in docs_to_add:
+        result = add_doc(doc)
     print(f"Actual: {result}")
-    if result == expected_output:
-        print("Pass")
-        return True
-    print("Fail")
-    return False
+    if copy_of_initial_docs != initial_docs:
+        print("Fail: You should not modify the initial list")
+        return False
+    if result != expected_output:
+        print("Fail: Unexpected result")
+        return False
+    print("Pass")
+    return True
 
 
 def main():

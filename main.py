@@ -77,3 +77,27 @@ def file_type_aggregator(func_to_decorate):
 def process_doc(doc, file_type):
     return f"Processing doc: '{doc}'. File Type: {file_type}"
 
+def args_logger(*args, **kwargs):
+    for index in range(len(args)):
+        print(f"# {index}. {args[index]}")
+    for key in sorted(kwargs.keys()):
+        print(f"# * {key}: {kwargs[key]}")
+
+
+def test(*args, **kwargs):
+    args_logger(*args, **kwargs)
+    print("========================================")
+
+
+def main():
+    test("Good", "riddance", date_str="01/01/2023")
+    test(message="Hello World", to_delete="l")
+    test("two", "star-crossed", "lovers")
+    test("hi", True, f_name="Lane", l_name="Wagner", age=28)
+
+
+main()
+
+
+
+

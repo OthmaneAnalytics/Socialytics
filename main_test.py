@@ -1,56 +1,55 @@
 from main import *
 
-
 run_cases = [
     (
-        "#",
-        3,
-        """###
-@##
-$$$
-###""",
-        2,
+        ("Welcome to the jungle", "txt"),
+        ("Processing doc: 'Welcome to the jungle'. File Type: txt", {"txt": 1}),
     ),
     (
-        "$",
-        2,
-        """$$$
-$
-***
-@@@
-$$
-$$$""",
-        3,
+        ("We've got fun and games", "txt"),
+        ("Processing doc: 'We've got fun and games'. File Type: txt", {"txt": 2}),
+    ),
+    (
+        ("We've got *everything* you want honey", "md"),
+        (
+            "Processing doc: 'We've got *everything* you want honey'. File Type: md",
+            {"txt": 2, "md": 1},
+        ),
     ),
 ]
 
 submit_cases = run_cases + [
-    ("%", 1, "", 0),
     (
-        "*",
-        3,
-        """***
-*
-$$$$$$
-xxx
-****
-***
-***""",
-        4,
+        ("We are the champions my friends", "docx"),
+        (
+            "Processing doc: 'We are the champions my friends'. File Type: docx",
+            {"txt": 2, "md": 1, "docx": 1},
+        ),
+    ),
+    (
+        ("print('hello world')", "py"),
+        (
+            "Processing doc: 'print('hello world')'. File Type: py",
+            {"txt": 2, "md": 1, "docx": 1, "py": 1},
+        ),
     ),
 ]
 
 
-def test(char, length, doc, expected_output):
+def test(inputs, expected_output):
     print("---------------------------------")
-    print(f"Input char: {char}")
-    print(f"Input length: {length}")
-    print(f"Input doc:")
-    print(doc)
-    print(f"Expecting: {expected_output}")
-    num_lines = lines_with_sequence(char)(length)(doc)
-    print(f"Actual: {num_lines}")
-    if num_lines == expected_output:
+    print(f"Inputs:")
+    for inp in inputs:
+        print(f" * {inp}")
+    print(f"Expecting:")
+    for out in expected_output:
+        print(f" * {out}")
+    counts = process_doc(*inputs)
+    print(f"Actual:")
+    for out in counts:
+        print(f" * {out}")
+
+    if counts == expected_output:
         print("Pass")
         return True
     print("Fail")

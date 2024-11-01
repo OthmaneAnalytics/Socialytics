@@ -83,21 +83,34 @@ def args_logger(*args, **kwargs):
     for key in sorted(kwargs.keys()):
         print(f"# * {key}: {kwargs[key]}")
 
-
-def test(*args, **kwargs):
-    args_logger(*args, **kwargs)
-    print("========================================")
-
-
-def main():
-    test("Good", "riddance", date_str="01/01/2023")
-    test(message="Hello World", to_delete="l")
-    test("two", "star-crossed", "lovers")
-    test("hi", True, f_name="Lane", l_name="Wagner", age=28)
+def markdown_to_text_decorator(func):
+    def wrapper(*args, **kwargs):
+        lst = list(map(convert_md_to_txt, args))
+        dct = dict(map(lambda x: (x[0],convert_md_to_txt(x[1])), kwargs.items()))
+        return func(*lst, **dct)
 
 
-main()
+    return wrapper
 
 
+# don't touch below this line
 
 
+def convert_md_to_txt(doc):
+    lines = doc.split("\n")
+    for i in range(len(lines)):
+        line = lines[i]
+        lines[i] = line.lstrip("# ")
+    return "\n".join(lines)
+
+@markdown_to_text_decorator
+def concat(first_doc, second_doc):
+    return f"""  First: {first_doc}
+  Second: {second_doc}"""
+
+
+@markdown_to_text_decorator
+def format_as_essay(title, body, conclusion):
+    return f"""  Title: {title}
+  Body: {body}
+  Conclusion: {conclusion}"""

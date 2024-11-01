@@ -242,3 +242,16 @@ def fib(n):
             f0 = f1
             f1 = f2
         return f2
+
+def power_set(input_set):
+    if input_set == []:
+        return [[]];
+    else:
+        lst = []
+        print(input_set)
+        element = input_set[0]
+        for colct in power_set(input_set[1:]):
+            print("collection ",colct)
+            lst.append(colct)
+            lst.append(colct + [element])
+        return lst

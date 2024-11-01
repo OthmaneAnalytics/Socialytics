@@ -1,26 +1,48 @@
 from main import *
 
 run_cases = [
-    (1, 1),
-    (10, 55),
-    (20, 6765),
+    ([1, 2], [[1, 2], [2], [1], []]),
+    ([1, 2, 3], [[1, 2, 3], [2, 3], [1, 3], [3], [1, 2], [2], [1], []]),
 ]
 
 submit_cases = run_cases + [
-    (0, 0),
-    (40, 102334155),
-    (70, 190392490709135),
-    (160, 1226132595394188293000174702095995),
+    ([], [[]]),
+    ([1], [[1], []]),
+    (
+        [1, 2, 3, 4],
+        [
+            [1, 2, 3, 4],
+            [2, 3, 4],
+            [1, 3, 4],
+            [3, 4],
+            [1, 2, 4],
+            [2, 4],
+            [1, 4],
+            [4],
+            [1, 2, 3],
+            [2, 3],
+            [1, 3],
+            [3],
+            [1, 2],
+            [2],
+            [1],
+            [],
+        ],
+    ),
 ]
 
 
 def test(input1, expected_output):
     print("---------------------------------")
-    print(f"Input: {input1}")
+    print(f"Inputs:")
+    for i in input1:
+        print(f" * {i}")
     print(f"Expecting: {expected_output}")
-    result = fib(input1)
+    result = power_set(input1)
     print(f"Actual: {result}")
-    if result == expected_output:
+    sorted_result = sorted([sorted(inner) for inner in result])
+    sorted_expected_output = sorted([sorted(inner) for inner in expected_output])
+    if sorted_result == sorted_expected_output:
         print("Pass")
         return True
     print("Fail")

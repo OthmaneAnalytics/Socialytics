@@ -165,49 +165,50 @@ def bubble_sort(nums):
     if len(nums) < 2:
         return nums
     else:
-        for index1 in range(len(nums) - 1):
+        swapping = True
+        end = len(nums)
+        while swapping == True and end > 0:
+            swapping = False
             for index in range(len(nums)-1):
                 if nums[index] > nums[index + 1]:
                     tmp = nums[index]
                     nums[index] = nums[index + 1]
                     nums[index + 1] = tmp
+                    swapping = True
+            end -= 1
         return nums           
 
 def merge_sort(nums):
-    print("array to sort", nums)
     if len(nums) < 2:
-        print("leaf case", nums)
         return nums
     else:
-        print("array before partion",nums, len(nums)//2)
         nums_l, nums_r = merge_sort(nums[:len(nums)//2]), merge_sort(nums[len(nums)//2:])
-        print("sorted arrays befor merge", nums_l,nums_r)
         return merge(nums_l,nums_r)
 
 
 def merge(first, second):
-    print("first ", first, "second", second)
     merged = []
     i_f, i_s = 0, 0
     for i in range(len(first) + len(second)):
         if i_f == len(first):
-            print("i_s", i_s,"elements to append", second[i_s:])
             merged.extend(second[i_s:])
             break
         elif i_s == len(second):
-            print("i_f", i_f,"elements to append", second[i_f:])
             merged.extend(first[i_f:])
             break
         elif first[i_f] < second[i_s]:
-            print( first[i_f], second[i_s] ,"comparison first[i_f] < second[i_s] appending first")
-            
             merged.append(first[i_f])
-            print("merged after appending first", merged)
             i_f += 1
         else:
-            print( first[i_f], second[i_s] ,"comparison first[i_f] >= second[i_s] appending second")
             merged.append(second[i_s])
-            print("merged after appending second", merged)
             i_s += 1
-    print("merged array" ,merged)
     return merged
+
+def insertion_sort(nums):
+    for i in range(len(nums)):
+        j = i
+        while j > 0 and nums[j - 1] > nums[j]:
+            nums[j -1], nums[j] = nums[j] ,nums[j -1]
+            j -= 1
+    return nums
+

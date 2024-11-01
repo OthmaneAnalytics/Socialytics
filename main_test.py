@@ -1,57 +1,33 @@
 from main import *
 
+theprimeagen = Influencer(100, 1)
+pokimane = Influencer(800, 2)
+spambot = Influencer(0, 200)
+lane = Influencer(10, 2)
+badcop = Influencer(1, 2)
+
 run_cases = [
-    (
-        ("# We like to play it all", "## Welcome to Tally Hall"),
-        {},
-        concat,
-        """  First: We like to play it all
-  Second: Welcome to Tally Hall""",
-    ),
-    (
-        set(),
-        {
-            "title": "Why Python is Great",
-            "body": "Maybe it isn't",
-            "conclusion": "## That's why Python is great!",
-        },
-        format_as_essay,
-        """  Title: Why Python is Great
-  Body: Maybe it isn't
-  Conclusion: That's why Python is great!""",
-    ),
+    ([badcop, lane], [badcop, lane]),
+    ([lane, badcop, pokimane], [badcop, lane, pokimane]),
+    ([spambot, theprimeagen], [theprimeagen, spambot]),
 ]
 
 submit_cases = run_cases + [
+    ([], []),
+    ([lane], [lane]),
     (
-        ("# Boots' grocery list", "Salmon, gems, arcanum crystals"),
-        {
-            "conclusion": "## Don't forget!",
-        },
-        format_as_essay,
-        """  Title: Boots' grocery list
-  Body: Salmon, gems, arcanum crystals
-  Conclusion: Don't forget!""",
+        [pokimane, theprimeagen, spambot, badcop, lane],
+        [badcop, lane, theprimeagen, pokimane, spambot],
     ),
 ]
 
 
-def test(args, kwargs, func, expected_output):
+def test(input1, expected_output):
     print("---------------------------------")
-    print(f"Positional Arguments:")
-    for arg in args:
-        print(f" * {arg}")
-    print(f"Keyword Arguments:")
-    for key, value in kwargs.items():
-        print(f" * {key}: {value}")
-    print(f"Expecting:")
-    print(expected_output)
-    try:
-        result = func(*args, **kwargs)
-    except Exception as error:
-        result = f"Error: {error}"
-    print(f"Actual:")
-    print(result)
+    print(f"Input:\n * {input1}")
+    print(f"Expecting: {expected_output}")
+    result = vanity_sort(input1)
+    print(f"Actual: {result}")
     if result == expected_output:
         print("Pass")
         return True

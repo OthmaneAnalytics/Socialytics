@@ -114,3 +114,50 @@ def format_as_essay(title, body, conclusion):
     return f"""  Title: {title}
   Body: {body}
   Conclusion: {conclusion}"""
+
+from enum import Enum
+
+Doctype = Enum("Doctype", ["PDF","TXT","DOCX","MD","HTML"])
+
+class DocFormat(Enum):
+    PDF = 1
+    TXT = 2
+    MD = 3
+    HTML = 4
+
+
+# don't touch above this line
+
+
+def convert_format(content, from_format, to_format):
+    if not (to_format and from_format):
+        raise Exception("Invalid type")
+    match (from_format, to_format):
+        case (from_format.MD, to_format.HTML):
+            return "<h1>" + content[2:] + "</h1>"
+        case (from_format.TXT, to_format.PDF):
+            return "[PDF] " + content + " [PDF]" 
+        case (from_format.HTML, to_format.MD):
+            return "# " + content[4:-5]
+        case _:
+            raise Exception("Invalid type")
+
+class Influencer:
+    def __init__(self, num_selfies, num_bio_links):
+        self.num_selfies = num_selfies
+        self.num_bio_links = num_bio_links
+
+    def __repr__(self):
+        return f"({self.num_selfies}, {self.num_bio_links})"
+
+
+# dont touch above this line
+
+
+def vanity(influencer):
+    return 5*influencer.num_bio_links + influencer.num_selfies
+
+
+def vanity_sort(influencers):
+    return sorted(influencers, key = vanity)
+
